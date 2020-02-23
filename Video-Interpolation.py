@@ -24,7 +24,6 @@ if __name__ == "__main__":
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     frameCount =  cap.get(cv2.CAP_PROP_FRAME_COUNT)
     frameRate = cap.get(cv2.CAP_PROP_FPS)
-    print(frameCount)
 
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
     out = cv2.VideoWriter("output/" + str(fileNameOnly) + "-i.mp4", fourcc, frameRate * 2 - 1, (width, height))
