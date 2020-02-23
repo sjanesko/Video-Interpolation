@@ -19,33 +19,29 @@ class App:
         self.btn_openfile.pack(anchor=tkinter.CENTER, side="top", expand=True)
 
         #create start button 
-        self.btn_openfile = tkinter.Button(window, text="Start", width=25, command=self.update)
+        self.btn_openfile = tkinter.Button(window, text="Start", width=25, command=self.start)
         self.btn_openfile.pack(anchor=tkinter.CENTER, side="top", expand=True)
 
         # Create a canvas that can fit the above video source size
         self.canvasOrigVid = tkinter.Canvas(window, width = 480, height = 360)
-        self.canvasOrigVid.pack(side="left")
+        self.canvasOrigVid.pack()
 
         # Create a canvas that can fit the above video source size
         self.canvasInterpolatedVid = tkinter.Canvas(window, width = 480, height = 360)
-        self.canvasInterpolatedVid.pack(side="right")
-
-        # create save button 
-        self.btn_snapshot=tkinter.Button(window, text="Save", width=50, command=self.save)
-        self.btn_snapshot.pack(anchor=tkinter.CENTER, side="bottom", expand=True)
+        self.canvasInterpolatedVid.pack()
         
         self.window.mainloop()
 
     def openfile(self):
         self.filename = filedialog.askopenfilename()
         self.filename_base =  os.path.splitext(os.path.basename(self.filename))[0]
-        self.vid = vidCapture(self.filename)
+        self.origVid = vidCapture(self.filename)
 
-    def save(self):
+    def start(self):
         pass
     
-    def update(self):
-        ret, frame = self.vid.get_frame()
+    def updateCanvases(self):
+        ret, frame = self.origVid.get_frame()
 
         if ret:
             self.image = PIL.Image.fromarray(frame).resize((480,360))
@@ -78,7 +74,7 @@ class vidCapture:
                 return (ret, None)
         else:
             return (ret, None)       
-
+            
     # Release the video source when the object is destroyed
     def __del__(self):
         if self.vid.isOpened():
